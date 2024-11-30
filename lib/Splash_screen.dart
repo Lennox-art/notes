@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Splash Screen Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SplashScreen(), // Set SplashScreen as the initial screen
-    );
-  }
-}
-
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -28,9 +8,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Navigate to the MainScreen after 3 seconds
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      Navigator.of(context).pushNamedAndRemoveUntil("/notes", (_) => false);
     });
 
     return Scaffold(
@@ -58,18 +36,4 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Screen'),
-      ),
-      body: const Center(
-        child: Text('Welcome to the Main Screen!'),
-      ),
-    );
-  }
-}

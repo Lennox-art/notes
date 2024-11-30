@@ -63,11 +63,25 @@ class _NotesPageState extends State<NotesPage> {
                       style: const TextStyle(color: Colors.blue),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
-                        setState(() {
-                          _notes.removeAt(index);
-                        });
+                       showDialog(
+                            context: context,
+                            builder: (_) => EditNoteDialog(
+                              notes: _notes,
+                              index: index,
+                              onDeleteNote: (i) {
+                                setState((){
+                                _notes.removeAt(i);
+                                });
+                              },
+                              onEditNote: (i, newNote) {
+                                setState((){
+                                  _notes[i] = newNote;
+                                });
+                              },
+                          ),
+                          ); 
                       },
                     ),
                   ),
@@ -78,5 +92,48 @@ class _NotesPageState extends State<NotesPage> {
         ],
       ),
     );
+  }
+}
+
+
+
+class EditNoteDialog extends StatelessWidget {
+   EditNoteDialog({
+    super.key, 
+    required this.notes,
+    required this.index,
+    required this.onEditNote,
+    required this.onDeleteNote,
+   });
+
+  final List<String> notes;
+  final int index;
+  final Function(int index, String note) onEditNote;
+  final Function(int index) onDeleteNote;
+
+  late final TextEditingController controller = TextEditingController(text: notes[index]);
+
+  @override
+  Widget build(BuildContext context) {
+   return Dialog(
+    child: Column(
+      //mainAxisSize: mainAxisSize.min,
+      children: [
+        TextFormField(
+          controller: controller,
+        ),
+        IconButton(icon: Icon(Icons.check), onPressed: () {
+          //TODO: Save note
+          onEditNote(index, controller.text);
+          Navigator.of(context).pop();
+        },),
+        IconButton(icon: Icon(Icons.delete, color: Colors.red,), onPressed: () {
+          //TODO: Delete note
+          onDeleteNote(index);
+           Navigator.of(context).pop();
+        },),
+      ],
+    )
+   ); 
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'notes_screen.dart';
+import 'splash_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -48,7 +52,12 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.blue, fontSize: 16), // Correct text style
         ),
       ),
-      home: const NotesPage(),
+      initialRoute: "/",
+      routes: {
+        "/" : (_) => SplashScreen(),
+        "/notes" : (_) => NotesPage(),
+        "/home" : (_) => HomePageScreen(),
+      },
       debugShowCheckedModeBanner: false, // Removed the debug banner
     );
   }
