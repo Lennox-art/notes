@@ -71,6 +71,7 @@ class _NotesPageState extends State<NotesPage> {
                               notes: _notes,
                               index: index,
                               onDeleteNote: (i) {
+                                //TODO: Find out why i have used set state instead of just _notes.removeAt(i);
                                 setState((){
                                 _notes.removeAt(i);
                                 });
